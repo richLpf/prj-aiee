@@ -1,0 +1,483 @@
+definitions:
+  common.CommonResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  model.Permission:
+    properties:
+      attribute:
+        type: string
+      created_at:
+        type: integer
+      desc:
+        type: string
+      id:
+        type: integer
+      key:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  model.RolePermission:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: integer
+      permission_id:
+        type: integer
+      role_id:
+        type: integer
+      updated_at:
+        type: integer
+    type: object
+  model.UserRole:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: integer
+      role_id:
+        type: integer
+      role_name:
+        description: 记录角色名称，检查查表次数
+        type: string
+      updated_at:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  permission.GetPermissionListRequest:
+    properties:
+      limit:
+        type: integer
+      offset:
+        type: integer
+    type: object
+  role.GetRoleListRequest:
+    properties:
+      limit:
+        type: integer
+      offset:
+        type: integer
+    type: object
+  role.RoleCreateRequest:
+    properties:
+      desc:
+        type: string
+      key:
+        type: string
+      name:
+        type: string
+      permissions:
+        items:
+          type: integer
+        type: array
+      status:
+        type: integer
+    type: object
+  user.CreateUserRole:
+    properties:
+      age:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      role_ids:
+        items:
+          type: integer
+        type: array
+      username:
+        type: string
+    type: object
+  user.GetUserListRequest:
+    properties:
+      limit:
+        type: integer
+      offset:
+        type: integer
+    type: object
+  user.GetUserRequest:
+    properties:
+      id:
+        type: integer
+    type: object
+  user.UpdateUserApi:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      role_ids:
+        items:
+          type: integer
+        type: array
+      username:
+        type: string
+    type: object
+  user.UserInfo:
+    properties:
+      age:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      token:
+        type: string
+      username:
+        type: string
+    type: object
+  user.UserLogin:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  user.UserLoginResponse:
+    properties:
+      data:
+        $ref: '#/definitions/user.UserInfo'
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/permission/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建用户权限
+      operationId: CreatePermission
+      parameters:
+      - description: 新用户的详细信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.Permission'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 成功创建的用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 创建权限
+      tags:
+      - 权限管理
+  /v1/permission/getList:
+    post:
+      consumes:
+      - application/json
+      description: 权限列表
+      operationId: GetAllPermission
+      parameters:
+      - description: 新权限的详细信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/permission.GetPermissionListRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 成功创建的用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 获取权限列表
+      tags:
+      - 权限管理
+  /v1/role/create:
+    post:
+      consumes:
+      - application/json
+      description: 创建角色并关联权限
+      operationId: CreateRole
+      parameters:
+      - default: token
+        description: JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 新角色的详细信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/role.RoleCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 成功创建的用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 创建角色并关联权限
+      tags:
+      - 角色管理
+  /v1/role/getList:
+    post:
+      consumes:
+      - application/json
+      description: 角色列表
+      operationId: GetAllRole
+      parameters:
+      - default: token
+        description: JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 新角色的详细信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/role.GetRoleListRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 角色信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 获取角色列表
+      tags:
+      - 角色管理
+  /v1/role_permission/create:
+    post:
+      consumes:
+      - application/json
+      description: 关联权限
+      operationId: CreateRolePermission
+      parameters:
+      - description: 角色关联权限
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.RolePermission'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 成功创建的用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 角色关联权限
+      tags:
+      - 角色管理
+  /v1/user/create:
+    post:
+      consumes:
+      - application/json
+      description: 用户注册
+      operationId: CreateUser
+      parameters:
+      - description: 新用户的详细信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateUserRole'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 成功创建的用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 用户注册
+      tags:
+      - 用户管理
+  /v1/user/get:
+    post:
+      consumes:
+      - application/json
+      description: 获取用户和用户权限
+      operationId: getUser
+      parameters:
+      - default: token
+        description: JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/user.GetUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 获取用户
+      tags:
+      - 用户管理
+  /v1/user/getList:
+    post:
+      consumes:
+      - application/json
+      description: 用户列表
+      operationId: GetAllUser
+      parameters:
+      - default: token
+        description: JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 新用户的详细信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/user.GetUserListRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 获取用户列表
+      tags:
+      - 用户管理
+  /v1/user/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登陆
+      operationId: UserLogin
+      parameters:
+      - description: 登陆用户信息信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/user.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 用户信息
+          schema:
+            $ref: '#/definitions/user.UserLoginResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 用户登陆
+      tags:
+      - 用户登陆
+  /v1/user/update:
+    post:
+      consumes:
+      - application/json
+      description: 更新用户
+      operationId: UpdateUser
+      parameters:
+      - default: token
+        description: JWT Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户信息
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserApi'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 更新用户
+      tags:
+      - 用户管理
+  /v1/user_role/create:
+    post:
+      consumes:
+      - application/json
+      description: 用户关联角色
+      operationId: createUserRole
+      parameters:
+      - description: 用户绑定角色
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRole'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 用户信息
+          schema:
+            $ref: '#/definitions/common.CommonResponse'
+        "400":
+          description: 请求参数有误
+          schema:
+            type: string
+      summary: 用户绑定角色
+      tags:
+      - 用户管理
+swagger: "2.0"

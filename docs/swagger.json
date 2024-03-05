@@ -1,0 +1,734 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/v1/permission/create": {
+            "post": {
+                "description": "创建用户权限",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "权限管理"
+                ],
+                "summary": "创建权限",
+                "operationId": "CreatePermission",
+                "parameters": [
+                    {
+                        "description": "新用户的详细信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Permission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "成功创建的用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/permission/getList": {
+            "post": {
+                "description": "权限列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "权限管理"
+                ],
+                "summary": "获取权限列表",
+                "operationId": "GetAllPermission",
+                "parameters": [
+                    {
+                        "description": "新权限的详细信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/permission.GetPermissionListRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "成功创建的用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/role/create": {
+            "post": {
+                "description": "创建角色并关联权限",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "角色管理"
+                ],
+                "summary": "创建角色并关联权限",
+                "operationId": "CreateRole",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "token",
+                        "description": "JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "新角色的详细信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/role.RoleCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "成功创建的用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/role/getList": {
+            "post": {
+                "description": "角色列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "角色管理"
+                ],
+                "summary": "获取角色列表",
+                "operationId": "GetAllRole",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "token",
+                        "description": "JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "新角色的详细信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/role.GetRoleListRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "角色信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/role_permission/create": {
+            "post": {
+                "description": "关联权限",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "角色管理"
+                ],
+                "summary": "角色关联权限",
+                "operationId": "CreateRolePermission",
+                "parameters": [
+                    {
+                        "description": "角色关联权限",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.RolePermission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "成功创建的用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/create": {
+            "post": {
+                "description": "用户注册",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户注册",
+                "operationId": "CreateUser",
+                "parameters": [
+                    {
+                        "description": "新用户的详细信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.CreateUserRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "成功创建的用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/get": {
+            "post": {
+                "description": "获取用户和用户权限",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "获取用户",
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "token",
+                        "description": "JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "用户信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.GetUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/getList": {
+            "post": {
+                "description": "用户列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "获取用户列表",
+                "operationId": "GetAllUser",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "token",
+                        "description": "JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "新用户的详细信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.GetUserListRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/login": {
+            "post": {
+                "description": "用户登陆",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户登陆"
+                ],
+                "summary": "用户登陆",
+                "operationId": "UserLogin",
+                "parameters": [
+                    {
+                        "description": "登陆用户信息信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/user.UserLoginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/update": {
+            "post": {
+                "description": "更新用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "更新用户",
+                "operationId": "UpdateUser",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "token",
+                        "description": "JWT Token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "用户信息",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.UpdateUserApi"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user_role/create": {
+            "post": {
+                "description": "用户关联角色",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户绑定角色",
+                "operationId": "createUserRole",
+                "parameters": [
+                    {
+                        "description": "用户绑定角色",
+                        "name": "RequestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/common.CommonResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "请求参数有误",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "common.CommonResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Permission": {
+            "type": "object",
+            "properties": {
+                "attribute": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.RolePermission": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "permission_id": {
+                    "type": "integer"
+                },
+                "role_id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.UserRole": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "role_id": {
+                    "type": "integer"
+                },
+                "role_name": {
+                    "description": "记录角色名称，检查查表次数",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "permission.GetPermissionListRequest": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                }
+            }
+        },
+        "role.GetRoleListRequest": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                }
+            }
+        },
+        "role.RoleCreateRequest": {
+            "type": "object",
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "permissions": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.CreateUserRole": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.GetUserListRequest": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.GetUserRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "user.UpdateUserApi": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.UserInfo": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.UserLogin": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.UserLoginResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/user.UserInfo"
+                }
+            }
+        }
+    }
+}

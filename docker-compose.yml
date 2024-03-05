@@ -1,0 +1,37 @@
+version: '3.1'
+services:
+  mysql:
+    image: mariadb
+    restart: always
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: aiee
+      MYSQL_USER: aiee
+      MYSQL_PASSWORD: aiee12345678
+    networks:
+      - mysqlnet
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+      # - ./sql:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    working_dir: /app
+    ports:
+      - 8080:8080
+    networks:
+      - mysqlnet
+    depends_on:
+      - mysql
+
+networks:
+  mysqlnet:
+    driver: bridge
